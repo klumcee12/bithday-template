@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday! 💜</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Permanent+Marker&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-color: #1a0030;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.08) 1.5px, transparent 1.5px),
+        radial-gradient(circle, rgba(255,255,255,0.04) 1px,   transparent 1px);
+      background-size: 24px 24px, 12px 12px;
+      background-position: 0 0, 6px 6px;
+      padding: 40px 16px 72px;
+    }
+
+    /* page vignette */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.45) 100%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── scrapbook wrapper ── */
+    .book {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; gap: 22px;
+    }
+
+    /* ── base paper ── */
+    .paper {
+      position: relative;
+      background: #fff;
+      box-shadow: 3px 5px 24px rgba(0,0,0,0.5);
+    }
+
+    /* ── washi tape ── */
+    .washi {
+      position: absolute;
+      height: 22px; border-radius: 2px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.28);
+      z-index: 10;
+    }
+    .washi.purple {
+      background: rgba(192,132,252,0.72);
+      background-image: repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 4px,
+        transparent 4px, transparent 10px);
+    }
+    .washi.pink {
+      background: rgba(244,114,182,0.65);
+      background-image: repeating-linear-gradient(45deg,
+        rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 2px,
+        transparent 2px, transparent 7px);
+    }
+    .washi.gold {
+      background: rgba(251,191,36,0.78);
+      background-image: repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.25) 0px, rgba(255,255,255,0.25) 3px,
+        transparent 3px, transparent 9px);
+    }
+    .washi.lavender {
+      background: rgba(167,139,250,0.7);
+      background-image: repeating-linear-gradient(-45deg,
+        rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 2px,
+        transparent 2px, transparent 6px);
+    }
+
+    /* ════════════════════════════════
+       1. TITLE CARD
+    ════════════════════════════════ */
+    .title-card {
+      padding: 40px 40px 44px;
+      text-align: center;
+      transform: rotate(-1.2deg);
+      background-image:
+        linear-gradient(rgba(0,0,0,0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.012) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .title-card .corner-sticker {
+      position: absolute; font-size: 1.55rem;
+      filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.3));
+    }
+
+    .cake-icon {
+      font-size: 4rem; display: block; margin-bottom: 12px;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 6px 14px rgba(251,191,36,0.45));
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    .title-h1 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      color: #3b0066;
+      text-shadow: 2px 3px 0 rgba(192,132,252,0.22);
+      line-height: 1.05;
+    }
+    .title-sub {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem; font-weight: 600;
+      color: #7b2fff; margin-top: 8px;
+    }
+
+    /* ════════════════════════════════
+       2. COLLAGE GRID
+    ════════════════════════════════ */
+    .collage {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* ── Polaroid ── */
+    .polaroid {
+      background: #fff;
+      padding: 10px 10px 40px;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .polaroid .photo {
+      width: 100%; aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; position: relative;
+    }
+    .polaroid .photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.18) 100%);
+      pointer-events: none;
+    }
+    .polaroid .cap {
+      position: absolute; bottom: 6px; left: 0; right: 0;
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem; color: #444;
+    }
+
+    /* photo corners */
+    .pc {
+      position: absolute;
+      width: 16px; height: 16px; overflow: hidden; z-index: 5;
+    }
+    .pc::before {
+      content: '';
+      position: absolute;
+      width: 26px; height: 26px;
+      background: rgba(60,0,120,0.22); border-radius: 2px;
+    }
+    .pc.tl { top:4px; left:4px; }   .pc.tl::before { top:0; left:0; }
+    .pc.tr { top:4px; right:4px; }  .pc.tr::before { top:0; right:0; }
+    .pc.bl { bottom:28px; left:4px; }  .pc.bl::before { bottom:0; left:0; }
+    .pc.br { bottom:28px; right:4px; } .pc.br::before { bottom:0; right:0; }
+
+    .pol1 { transform: rotate(-3.5deg); box-shadow: 3px 5px 22px rgba(0,0,0,0.45); }
+    .pol1:hover { transform: rotate(-3.5deg) translateY(-6px) scale(1.02); box-shadow: 5px 10px 28px rgba(0,0,0,0.55); }
+    .pol1 .photo { background: linear-gradient(135deg, #ede9fe, #c084fc, #9333ea); }
+
+    .pol2 { transform: rotate(2.5deg); box-shadow: 3px 5px 22px rgba(0,0,0,0.45); }
+    .pol2:hover { transform: rotate(2.5deg) translateY(-6px) scale(1.02); box-shadow: 5px 10px 28px rgba(0,0,0,0.55); }
+    .pol2 .photo { background: linear-gradient(135deg, #fdf4ff, #e879f9, #9333ea); }
+
+    /* ── Film strip ── */
+    .film-strip {
+      background: #0d001a;
+      padding: 14px 6px 10px;
+      display: flex; flex-direction: column; gap: 4px;
+      transform: rotate(1.8deg);
+      box-shadow: 4px 6px 22px rgba(0,0,0,0.6);
+      width: 108px;
+      grid-column: 3; grid-row: 1 / 3;
+      align-self: start; position: relative;
+    }
+    .film-strip::before, .film-strip::after {
+      content: '';
+      position: absolute; left: 0; right: 0; height: 12px;
+      background-image: repeating-linear-gradient(90deg,
+        transparent 0px, transparent 4px,
+        #1a0030 4px, #1a0030 10px,
+        transparent 10px, transparent 14px);
+    }
+    .film-strip::before { top: 0; }
+    .film-strip::after  { bottom: 0; }
+
+    .ff {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .ff:nth-child(2) { background: linear-gradient(135deg, #4c1d95, #7c3aed); }
+    .ff:nth-child(3) { background: linear-gradient(135deg, #7c2d98, #c026d3); }
+    .ff:nth-child(4) { background: linear-gradient(135deg, #312e81, #6d28d9); }
+
+    .film-label {
+      color: #d8b4fe;
+      font-family: 'Caveat', cursive;
+      font-size: 0.72rem; text-align: center;
+      padding: 4px 0 6px; line-height: 1.4;
+    }
+
+    /* ── Lined note ── */
+    .lined-note {
+      grid-column: 1 / 3; grid-row: 2;
+      background-color: #fffbf0;
+      background-image: linear-gradient(transparent 27px, rgba(100,120,200,0.22) 27px);
+      background-size: 100% 28px;
+      background-origin: content-box;
+      background-position: 0 22px;
+      padding: 22px 28px 28px 56px;
+      transform: rotate(0.7deg);
+      box-shadow: 3px 5px 22px rgba(0,0,0,0.42);
+      position: relative;
+      min-height: 170px;
+    }
+    /* red margin line */
+    .lined-note::before {
+      content: '';
+      position: absolute; top: 0; bottom: 0; left: 44px;
+      width: 1.5px; background: rgba(220,50,50,0.3);
+    }
+    .lined-note .pin {
+      position: absolute; top: -14px; left: 18px;
+      font-size: 1.4rem;
+      filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.35));
+    }
+    .lined-note p {
+      font-family: 'Caveat', cursive;
+      font-size: 1.28rem; color: #222;
+      line-height: 28px;
+    }
+
+    /* ════════════════════════════════
+       3. BOTTOM ROW
+    ════════════════════════════════ */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .wish-card {
+      background: #f3e8ff;
+      padding: 28px 24px;
+      transform: rotate(-2deg);
+      box-shadow: 3px 5px 22px rgba(0,0,0,0.42);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wish-card:hover { transform: rotate(-2deg) translateY(-5px); box-shadow: 5px 10px 28px rgba(0,0,0,0.52); }
+    .wish-card h2 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.4rem; color: #3b0066; margin-bottom: 14px;
+    }
+    .wish-list { list-style: none; }
+    .wish-list li {
+      font-family: 'Caveat', cursive;
+      font-size: 1.22rem; color: #333; padding: 5px 0;
+    }
+
+    .balloon-card {
+      background: #fff;
+      padding: 28px 20px; text-align: center;
+      transform: rotate(1.8deg);
+      box-shadow: 3px 5px 22px rgba(0,0,0,0.42);
+      background-image:
+        linear-gradient(rgba(0,0,0,0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.012) 1px, transparent 1px);
+      background-size: 22px 22px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .balloon-card:hover { transform: rotate(1.8deg) translateY(-5px); box-shadow: 5px 10px 28px rgba(0,0,0,0.52); }
+    .balloon-cluster { font-size: 2.8rem; line-height: 1.4; display: block; margin-bottom: 12px; }
+    .balloon-card .bm { font-family: 'Permanent Marker', cursive; font-size: 1.2rem; color: #7b2fff; }
+
+    /* ── Postage stamp ── */
+    .stamp-wrap {
+      display: flex; justify-content: flex-end;
+      padding-right: 16px;
+    }
+    .stamp {
+      background: #f3e8ff;
+      padding: 10px 10px 8px;
+      border: 3px dashed #9333ea;
+      box-shadow: 2px 3px 10px rgba(0,0,0,0.35);
+      transform: rotate(6deg);
+      text-align: center;
+      width: 90px;
+      position: relative;
+    }
+    .stamp-icon { font-size: 2rem; display: block; }
+    .stamp-text {
+      font-family: 'Caveat', cursive;
+      font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 1px; color: #6d28d9;
+      margin-top: 4px; line-height: 1.3;
+    }
+    .stamp-val {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.9rem; color: #3b0066;
+      border-top: 1px solid #c084fc;
+      margin-top: 4px; padding-top: 3px;
+    }
+    /* cancellation mark */
+    .stamp::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(70deg,
+          transparent 0px, transparent 6px,
+          rgba(107,33,168,0.18) 6px, rgba(107,33,168,0.18) 7px);
+      pointer-events: none;
+    }
+
+    /* ════════════════════════════════
+       4. CTA BUTTON
+    ════════════════════════════════ */
+    .btn-wrap { text-align: center; }
+
+    .btn {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.3rem; color: #fff;
+      background: #7b2fff; border: none;
+      padding: 16px 52px; cursor: pointer;
+      box-shadow: 4px 4px 0 #3b0066, 0 6px 24px rgba(123,47,255,0.5);
+      transform: rotate(-1.2deg);
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 1px;
+    }
+    .btn:hover {
+      transform: rotate(-1.2deg) translateY(-4px);
+      box-shadow: 4px 8px 0 #3b0066, 0 12px 32px rgba(123,47,255,0.6);
+    }
+    .btn:active {
+      transform: rotate(-1.2deg) translateY(2px);
+      box-shadow: 2px 2px 0 #3b0066;
+    }
+
+    /* ── Sparkle ── */
+    .sparkle {
+      position: fixed; pointer-events: none; z-index: 9999;
+      font-size: 1.3rem;
+      animation: spark 0.85s ease forwards;
+    }
+    @keyframes spark {
+      0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--tx),var(--ty)) scale(0.1) rotate(var(--tr)); }
+    }
+
+    /* ── Confetti ── */
+    .conf {
+      position: fixed; top: -16px; opacity: 0;
+      pointer-events: none; border-radius: 2px; z-index: 3;
+      animation: confFall var(--d,4s) ease-in var(--del,0s) infinite;
+    }
+    @keyframes confFall {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(110vh) rotate(540deg); }
+    }
+
+    /* ════════════════════════════════
+       BOUQUET CARD
+    ════════════════════════════════ */
+    .bouquet-card {
+      padding: 28px 24px 32px;
+      align-self: center;
+      width: min(500px, 100%);
+      text-align: center;
+      background: linear-gradient(170deg, #fff 60%, #fdf4ff 100%);
+    }
+
+    .bc-title {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.6rem; color: #3b0066;
+      margin-bottom: 20px;
+    }
+
+    .bouquet-wrap {
+      position: relative;
+      display: inline-block;
+      padding: 0 20px;
+    }
+
+    /* soft glow halo behind the flowers */
+    .bouquet-glow {
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%);
+      width: 210px; height: 150px;
+      background: radial-gradient(ellipse, rgba(192,132,252,0.38) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
+      50%       { opacity: 1;   transform: translateX(-50%) scale(1.18); }
+    }
+
+    /* flower container */
+    .flower-display {
+      position: relative;
+      width: 200px; height: 110px;
+      margin: 0 auto;
+    }
+
+    .fl {
+      position: absolute;
+      font-size: var(--size, 2.2rem);
+      display: inline-block;
+      transform-origin: bottom center;
+      animation: flSway var(--sw, 3s) ease-in-out infinite var(--del, 0s);
+      filter: drop-shadow(0 2px 8px rgba(123,47,255,0.38));
+    }
+    @keyframes flSway {
+      0%, 100% { transform: rotate(var(--rot, 0deg)); }
+      50%       { transform: rotate(calc(var(--rot, 0deg) + 5deg)); }
+    }
+
+    /* stem bundle — tapers from wide to narrow */
+    .stems-bundle {
+      width: 80px; height: 50px;
+      background: linear-gradient(to bottom, #4ade80, #16a34a);
+      clip-path: polygon(20% 0%, 80% 0%, 58% 100%, 42% 100%);
+      margin: -6px auto 0;
+    }
+
+    .bow-ribbon {
+      font-size: 2.2rem; display: block;
+      margin-top: -12px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+      animation: bowWiggle 5s ease-in-out infinite;
+    }
+    @keyframes bowWiggle {
+      0%, 100%, 35% { transform: rotate(0deg); }
+      15% { transform: rotate(-4deg); }
+      55% { transform: rotate(4deg); }
+    }
+
+    .bc-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem; color: #7b2fff;
+      margin-top: 14px;
+    }
+
+    /* floating magic dust */
+    .magic-dust {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--color, #c084fc);
+      opacity: 0;
+      pointer-events: none;
+      animation: dustFloat var(--dur, 2s) ease-in var(--del, 0s) infinite;
+      z-index: 5;
+    }
+    @keyframes dustFloat {
+      0%   { opacity: 0; transform: translate(0, 0) scale(0.7); }
+      15%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--tx, 0px), -85px) scale(0.1); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 580px) {
+      .collage { grid-template-columns: 1fr 1fr; }
+      .film-strip { display: none; }
+      .lined-note { grid-column: 1 / -1; }
+      .bottom-row { grid-template-columns: 1fr; }
+      .title-card { padding: 32px 20px 36px; }
+    }
+  </style>
+</head>
+<body>
+<div id="cc"></div>
+
+<div class="book">
+
+  <!-- ① TITLE CARD -->
+  <div class="paper title-card">
+    <div class="washi purple" style="width:92px;top:-11px;left:50%;transform:translateX(-50%) rotate(0.8deg)"></div>
+    <span class="corner-sticker" style="top:10px;left:12px;transform:rotate(-8deg)">⭐</span>
+    <span class="corner-sticker" style="top:10px;right:14px;transform:rotate(12deg)">✨</span>
+    <span class="corner-sticker" style="bottom:10px;left:12px;transform:rotate(-5deg)">🌸</span>
+    <span class="corner-sticker" style="bottom:10px;right:14px;transform:rotate(10deg)">🦋</span>
+    <span class="cake-icon">🎂</span>
+    <div class="title-h1">Happy Birthday!</div>
+    <div class="title-sub">to my absolute favourite person 💜</div>
+  </div>
+
+  <!-- ② COLLAGE -->
+  <div class="collage">
+
+    <!-- Polaroid 1 -->
+    <div class="paper polaroid pol1">
+      <div class="washi pink" style="width:50px;top:-11px;left:50%;transform:translateX(-50%) rotate(2deg)"></div>
+      <div class="pc tl"></div><div class="pc tr"></div>
+      <div class="pc bl"></div><div class="pc br"></div>
+      <div class="photo">💜</div>
+      <div class="cap">my fave human 🌟</div>
+    </div>
+
+    <!-- Polaroid 2 -->
+    <div class="paper polaroid pol2">
+      <div class="washi gold" style="width:50px;top:-11px;left:50%;transform:translateX(-50%) rotate(-1.5deg)"></div>
+      <div class="pc tl"></div><div class="pc tr"></div>
+      <div class="pc bl"></div><div class="pc br"></div>
+      <div class="photo">🌸</div>
+      <div class="cap">you light up my world ✨</div>
+    </div>
+
+    <!-- Film strip -->
+    <div class="film-strip">
+      <div class="washi lavender" style="width:40px;top:-10px;right:6px;transform:rotate(-1.5deg)"></div>
+      <div class="ff">🎉</div>
+      <div class="ff">💜</div>
+      <div class="ff">🌟</div>
+      <div class="film-label">best memories 💜</div>
+    </div>
+
+    <!-- Lined note -->
+    <div class="paper lined-note">
+      <span class="pin">📌</span>
+      <p>
+        hey you 💜<br><br>
+        just wanted to remind you how loved you are —
+        not just today, but every single day.<br><br>
+        you deserve all the beautiful things this world
+        has to offer. here's to another year of being
+        the most amazing person i know. 🎊<br><br>
+        – with all my love 💜
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ③ BOTTOM ROW -->
+  <div class="bottom-row">
+
+    <div class="paper wish-card">
+      <div class="washi gold" style="width:64px;top:-11px;left:24px;transform:rotate(1.5deg)"></div>
+      <h2>my wishes for you 🌙</h2>
+      <ul class="wish-list">
+        <li>💜 endless happiness</li>
+        <li>✨ all your dreams come true</li>
+        <li>🌸 good health always</li>
+        <li>🎉 so many surprises</li>
+        <li>🦋 peace in your heart</li>
+        <li>⭐ everything you deserve</li>
+      </ul>
+    </div>
+
+    <div class="paper balloon-card">
+      <div class="washi pink" style="width:56px;top:-11px;right:20px;transform:rotate(-1.5deg)"></div>
+      <span class="balloon-cluster">🎈💜🎈<br>💜🎊💜<br>🎈💜🎈</span>
+      <p class="bm">celebrate YOU today! 🎂</p>
+    </div>
+
+  </div>
+
+  <!-- BOUQUET CARD -->
+  <div class="paper bouquet-card" style="transform:rotate(-1.5deg)">
+    <div class="washi purple" style="width:80px;top:-11px;left:50%;transform:translateX(-50%) rotate(0.5deg)"></div>
+    <div class="bc-title">for you 💜</div>
+    <div class="bouquet-wrap" id="bouquetWrap">
+      <div class="bouquet-glow"></div>
+      <div class="flower-display">
+        <!-- outer arc, left to right -->
+        <span class="fl" style="--size:2.1rem;--rot:-42deg;--sw:2.8s;--del:0s;left:0px;top:52px">🌷</span>
+        <span class="fl" style="--size:2.3rem;--rot:-24deg;--sw:3.2s;--del:0.2s;left:30px;top:16px">🌸</span>
+        <span class="fl" style="--size:2.6rem;--rot:-8deg;--sw:2.5s;--del:0.5s;left:70px;top:0px">🪷</span>
+        <span class="fl" style="--size:2.5rem;--rot:6deg;--sw:3s;--del:0.1s;left:108px;top:4px">🌸</span>
+        <span class="fl" style="--size:2.3rem;--rot:26deg;--sw:2.7s;--del:0.4s;left:144px;top:22px">🌷</span>
+        <span class="fl" style="--size:2.1rem;--rot:44deg;--sw:3.1s;--del:0.3s;left:170px;top:52px">🌺</span>
+        <!-- inner fill flowers -->
+        <span class="fl" style="--size:1.8rem;--rot:-14deg;--sw:2.9s;--del:0.6s;left:52px;top:48px">🌸</span>
+        <span class="fl" style="--size:1.8rem;--rot:12deg;--sw:3.3s;--del:0.7s;left:128px;top:50px">💜</span>
+      </div>
+      <div class="stems-bundle"></div>
+      <span class="bow-ribbon">🎀</span>
+    </div>
+    <p class="bc-caption">picked just for you 💜</p>
+  </div>
+
+  <!-- postage stamp -->
+  <div class="stamp-wrap">
+    <div class="stamp">
+      <span class="stamp-icon">💜</span>
+      <div class="stamp-text">Birthday<br>Edition</div>
+      <div class="stamp-val">2026</div>
+    </div>
+  </div>
+
+  <!-- ④ CTA -->
+  <div class="btn-wrap">
+    <button class="btn" id="celebBtn">🎉 Celebrate! 🎉</button>
+  </div>
+
+</div>
+
+<script>
+  /* confetti */
+  const cc = document.getElementById('cc');
+  const cls = ['#c084fc','#f472b6','#fbbf24','#818cf8','#e879f9','#fff','#a5f3fc'];
+  for (let i = 0; i < 55; i++) {
+    const el = document.createElement('div');
+    el.className = 'conf';
+    const s = Math.random() * 7 + 5;
+    el.style.cssText = `left:${Math.random()*100}%;width:${s}px;height:${s*1.4}px;background:${cls[i%cls.length]};--d:${(Math.random()*3+3.5).toFixed(1)}s;--del:${(Math.random()*7).toFixed(1)}s;transform:rotate(${Math.random()*360}deg)`;
+    cc.appendChild(el);
+  }
+
+  /* sparkles */
+  const sparks = ['✨','💜','🌟','💫','🎉','🎊','⭐','🌸','🎈'];
+
+  function burst(cx, cy, n) {
+    for (let i = 0; i < n; i++) {
+      const sp = document.createElement('span');
+      sp.className = 'sparkle';
+      const a = (i / n) * 360, d = 60 + Math.random() * 80, r = a * Math.PI / 180;
+      sp.textContent = sparks[Math.floor(Math.random() * sparks.length)];
+      sp.style.cssText = `left:${cx}px;top:${cy}px;--tx:${(Math.cos(r)*d).toFixed(0)}px;--ty:${(Math.sin(r)*d).toFixed(0)}px;--tr:${Math.floor(Math.random()*360)}deg`;
+      document.body.appendChild(sp);
+      setTimeout(() => sp.remove(), 900);
+    }
+  }
+
+  document.getElementById('celebBtn').addEventListener('click', e => {
+    const b = e.target.getBoundingClientRect();
+    burst(b.left + b.width / 2, b.top + b.height / 2, 22);
+  });
+
+  document.body.addEventListener('click', e => {
+    if (e.target.closest('#celebBtn')) return;
+    const sp = document.createElement('span');
+    sp.className = 'sparkle';
+    sp.textContent = sparks[Math.floor(Math.random() * sparks.length)];
+    sp.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;--tx:${(Math.random()*30-15).toFixed(0)}px;--ty:${-(Math.random()*30+10).toFixed(0)}px;--tr:${Math.floor(Math.random()*360)}deg;font-size:1rem`;
+    document.body.appendChild(sp);
+    setTimeout(() => sp.remove(), 900);
+  });
+
+  /* magic bouquet dust */
+  const bouqWrap = document.getElementById('bouquetWrap');
+  const dustColors = ['#c084fc','#f472b6','#fbbf24','#e879f9','#fff','#a78bfa','#f9a8d4'];
+  for (let i = 0; i < 24; i++) {
+    const p = document.createElement('div');
+    p.className = 'magic-dust';
+    const size = (Math.random() * 5 + 2).toFixed(1);
+    p.style.cssText = `
+      left:${(Math.random() * 185 + 8).toFixed(0)}px;
+      top:${(Math.random() * 90 + 10).toFixed(0)}px;
+      width:${size}px; height:${size}px;
+      --color:${dustColors[Math.floor(Math.random() * dustColors.length)]};
+      --dur:${(Math.random() * 2 + 1.4).toFixed(1)}s;
+      --del:${(Math.random() * 4.5).toFixed(1)}s;
+      --tx:${(Math.random() * 50 - 25).toFixed(0)}px;
+    `;
+    bouqWrap.appendChild(p);
+  }
+</script>
+</body>
+</html>
